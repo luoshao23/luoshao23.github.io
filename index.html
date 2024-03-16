@@ -1,43 +1,18 @@
-<!DOCTYPE html>
-<!-- KaTeX requires the use of the HTML5 doctype. Without it, KaTeX may not render properly -->
-<html>
+---
+layout: default
+---
 
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
-        integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<div class="posts">
+    {% for post in site.posts %}
+    <article class="post">
 
-    <!-- The loading of KaTeX is deferred to speed up page rendering -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
-        integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8"
-        crossorigin="anonymous"></script>
+        <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
 
-    <!-- To automatically render math in text elements, include the auto-render extension: -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
-        integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
-    <script>
-        var expressions = [
-            { expression: String.raw`f(x) = \int_{-\infty}^\infty F(\omega)e^{2 \pi i \omega x} d\omega`, targetId: "math-expression" },
-            { expression: String.raw`-1 = e^{i\pi}`, targetId: "math-expression2" }
-        ];
+        <div class="entry">
+            {{ post.excerpt }}
+        </div>
 
-        // Render mathematical expressions using KaTeX
-        document.addEventListener("DOMContentLoaded", function () {
-            expressions.forEach(function (item) {
-                // Select the target element
-                var targetElement = document.getElementById(item.targetId);
-
-                // Render the expression using KaTeX
-                katex.render(item.expression, targetElement, {
-                    throwOnError: false
-                });
-            });
-        });
-    </script>
-
-</head>
-<!-- HTML element to render mathematical expression -->
-<div id="math-expression"></div>
-<div id="math-expression2"></div>
-
-</html>
+        <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
+    </article>
+    {% endfor %}
+</div>
