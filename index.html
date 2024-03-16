@@ -10,6 +10,22 @@
     <!-- To automatically render math in text elements, include the auto-render extension: -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
+    <script>
+  // Render mathematical expression using KaTeX
+  document.addEventListener("DOMContentLoaded", function() {
+    // Select the target element
+    var targetElement = document.getElementById("math-expression");
+
+    // Mathematical expression to render
+    var expression = "f(x) = \\int_{-\\infty}^\\infty F(\\omega)e^{2 \\pi i \\omega x} d\\omega";
+
+    // Render the expression using KaTeX
+    katex.render(expression, targetElement);
+  });
+</script>
+
   </head>
-  \theta
+  <!-- HTML element to render mathematical expression -->
+<div id="math-expression"></div>
+
 </html>
