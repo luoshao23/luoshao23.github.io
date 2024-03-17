@@ -1,12 +1,12 @@
 ---
-layout: post
-title:  "Useful command"
+title:  "Useful commands"
 date:   2024-03-16 23:58:15 +0800
-categories: miscellaneous
+categories:
+  - miscellaneous
+tags:
+  - notion
+  - linux
 ---
-
-# Useful Commands
-
 
 ### Jar包反编译
 
