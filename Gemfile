@@ -9,7 +9,7 @@ source "https://rubygems.org"
 # Happy Jekylling!
 #gem "jekyll", "~> 4.3.3"
 gem "github-pages", "~> 231", group: :jekyll_plugins
-gem "minimal-mistakes-jekyll"
+# gem "minimal-mistakes-jekyll"
 
 
 # If you want to use GitHub Pages, remove the "gem "jekyll"" above and
