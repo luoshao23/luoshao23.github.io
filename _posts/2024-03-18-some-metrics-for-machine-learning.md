@@ -61,16 +61,15 @@ https://zhuanlan.zhihu.com/p/646149258
 
 用于判断生成模型的效果好坏（Fidelity and diversity），IS越大越好
 
-- fidelity：模型预测类目标签p(y|x)的熵越小越好
-- diversity：预测类目的分布p(y)越均匀越好，熵越大越好
+- fidelity：模型预测类目标签`p(y|x)`的熵越小越好
+- diversity：预测类目的分布`p(y)`越均匀越好，熵越大越好
 
-$$
-IS(p_{gen}, p_{dis}):=exp(E_{x \sim p_{gen}}[D_{KL}(p_{dis}(y|x)||\int{p_{dis}(y|x)p_{gen}(x)dx})])
-$$
+$$IS(p_{gen}, p_{dis}):=exp(E_{x \sim p_{gen}}[D_{KL}(p_{dis}(y|x)||\int{p_{dis}(y|x)p_{gen}(x)dx})])$$
 
-存在问题：只使用了预测模型结果，没有与ground truth对比
 
-互信息view：I(y;x) = H(y) - H(y|x)
+存在问题：只使用了预测模型结果，没有与ground truth对比。
+
+互信息view: `I(y;x) = H(y) - H(y|x)`
 
 ## FID score
 
@@ -80,8 +79,8 @@ def：[https://en.wikipedia.org/wiki/Fréchet_inception_distance](https://en.wik
 
 具体实现：https://github.com/bioinf-jku/TTUR/blob/master/fid.py#L109
 
-The Fréchet distance between two multivariate Gaussians $X_1 \sim N(\mu_1, C_1)$
-and $X_2 \sim N(\mu_2, C_2)$ is
+The Fréchet distance between two multivariate Gaussians $$X_1 \sim N(\mu_1, C_1)$$
+and $$X_2 \sim N(\mu_2, C_2)$$ is
 
 $$
 d^2 = ||\mu_1 - \mu_2||^2 + Tr(C_1 + C_2 - 2(C_1 C_2)^{1/2}).
@@ -109,9 +108,9 @@ $$
 
 给定一张m*n单色图片，
 
-$PSNR=10\cdot log_{10}(\frac{max\{I\}^2}{MSE}) = 20\cdot log_{10}(max\{I\}) - 10 \cdot log_{10}(MSE)$
+$$PSNR=10\cdot log_{10}(\frac{max\{I\}^2}{MSE}) = 20\cdot log_{10}(max\{I\}) - 10 \cdot log_{10}(MSE)$$
 
-其中max{I}是原始图片中最大的像素值，$MSE=\sum[I(i, j) - K(i,j)]^2$
+其中max{I}是原始图片中最大的像素值，$$MSE=\sum[I(i, j) - K(i,j)]^2$$
 
 ## [Jensen](https://en.wikipedia.org/wiki/Johan_Jensen_(mathematician))–[Shannon](https://en.wikipedia.org/wiki/Claude_Shannon) divergence
 
