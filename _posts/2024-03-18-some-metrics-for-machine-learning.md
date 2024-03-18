@@ -6,7 +6,7 @@ categories:
 tags:
   - metrics
 ---
-# Metric
+(持续更新)
 
 ## [Perplexity(困惑度)](https://huggingface.co/docs/transformers/en/perplexity)
 
