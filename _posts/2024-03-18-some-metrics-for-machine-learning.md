@@ -22,8 +22,12 @@ Pro：快速；Con：粒度影响结果
 神经网络中的PPL计算往往不直接计算而是使用cross entropy loss
 
 $$
-PPL = 2^J, \\ J = -\frac{1}{T} \sum_{t=1}^{T} \sum_{j=1}^{|V|} y_{t,j} log (\hat{y}_{t,j})
+PPL = 2^J,
 $$
+$$
+J = -\frac{1}{T} \sum_{t=1}^{T} \sum_{j=1}^{|V|} y_{t,j} log (\hat{y}_{t,j})
+$$
+
 
 ## BLEU（Bilingual Evaluation Understudy）
 
