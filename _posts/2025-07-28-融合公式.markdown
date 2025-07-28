@@ -1,0 +1,73 @@
+---
+title:  "融合公式"
+date:   2025-07-28 16:20:15 +0800
+categories:
+  - machine learning
+  - rank
+tags:
+  - 多目标排序
+math: true
+---
+
+# 融合公式
+
+## 形式
+**形式1**
+
+考虑公式形式为 $$cu=(1+\beta(1-x))^\alpha$$，随着x的增大，cu逐渐趋于1，cu是递减函数，$$\Delta cu=cu_2/cu_1<1(x_2>x_1)$$，在此种情况下（$$\Delta cu<1$$），对cu进行log变换更容易理解边际效益 $$\log cu=\log(1+\beta(1-x))^\alpha=\alpha \cdot \log(1+\beta(1-x))$$，log cu的导数为 $$\frac{d(\log cu)}{dx}=-\frac{\alpha\beta}{1+\beta(1-x)}<0$$，边际效益指x变化带来的cu的变化（负数时应该取绝对值），因此边际效益为 $$\left\vert\frac{d(\log cu)}{dx}\right\vert=\frac{\alpha\beta}{1+\beta(1-x)}$$ 随着x的增大而增大
+
+因此$$(1+\beta(1-x))^\alpha$$边际效益递增
+
+**形式2**
+
+考虑公式形式为 $$cu=(\gamma+\beta\frac{1-x}{x})^\alpha$$，将公式简化为 $$cu=((\frac{1-x}{x}))^\alpha$$，该形式也是x的递减函数，因此也采用log变换来分析边际效益，$$\log cu=\log((\frac{1-x}{x}))^\alpha=\alpha(\log(1-x)-\log x)$$，log cu的导数为 $$\frac{d(\log cu)}{dx}=-\frac{\alpha}{x(1-x)}<0$$，边际效益为 $$\left\vert\frac{d(\log cu)}{dx}\right\vert=\frac{\alpha}{x(1-x)}$$ 在x>0.5后随着x的增大而增大。
+
+函数形式$$(\gamma+\beta\frac{1-x}{x})^\alpha$$可以理解为，在模型不确定度大的地方，x的变化对cu的影响较小；在模型确定度大的地方，x的变化对cu的影响大
+
+## 乘法 vs 加法
+
+乘法鼓励各个目标都不差的内容，加法鼓励单一目标好的内容
+
+假设加法融合公式为 $$f(x,y)=x+y$$，乘法融合公式为 $$f(x,y)=xy$$
+
+假设gid在加法融合公式下 $$f(x,y)=1$$，在乘法融合公式下 $$f(x,y)=0.1$$，我们可以画出比gid cu分高的区域为下图右上角所示，根据两种公式的交集和差集可以看出
+
+- 乘法公式相比加法公式，会多鼓励一些单一目标不那么突出，但是各个目标都不差的内容（图中偏中部的内容）
+- 加法公式相比乘法公式，更倾向于鼓励单一目标突出的内容（图中偏左上和右下的内容）
+
+## 边际效益
+
+**如何定义边际效益**
+
+内容的排出取决于cu的大小，cu会随着目标的变化而变化，我们定义目标每发生"一个单位的变化"带来的"cu变化幅度"为当前目标的边际效益，根据公式形式的不同，cu变化幅度有不同的定义：
+
+- 在乘法融合公式下，我们定义边际效益为 $$\Delta cu=\frac{cu_2}{cu_1}$$
+- 在加法融合公式下，我们定义边际效益为 $$\Delta cu=cu_2-cu_1$$
+
+若考虑排序，取对数变换不影响序，因此乘法融合公式等价于log_sum融合公式，即
+
+$$cu=(1+\beta_1x_1)^{\alpha_1} \cdot (1+\beta_2x_2)^{\alpha_2}$$ 等价于 $$\log(cu)=\alpha_1\log(1+\beta_1x_1) + \alpha_2\log(1+\beta_2x_2)$$
+
+**边际效益递减**
+
+考虑公式形式为 $$cu=(1+\beta x)^\alpha$$，x的边际效益为 $$\Delta cu=\frac{(1+\beta x_2)^\alpha}{(1+\beta x_1)^\alpha} = \left(1 + \frac{x_2-x_1}{\frac{1}{\beta}+x_1}\right)^\alpha$$
+
+我们假设x变化一个单位$$\Delta x$$（比如0.1），那么 $$\Delta cu=\frac{(1+\beta x_2)^\alpha}{(1+\beta x_1)^\alpha} = \left(1 + \frac{\Delta x}{\frac{1}{\beta}+x_1}\right)^\alpha$$ 随着$$x_1$$的增大而减小
+
+因此$$(1+\beta x)^\alpha$$存在边际效益递减
+
+大多数的目标采用这种形式，如finish、digg等目标，边际效益递减，可以有效防止hack推荐系统的内容排出
+
+**边际效益不变**
+
+考虑公式形式为 $$cu=\alpha^{\beta x}$$，x的边际效益为 $$\Delta cu=\frac{\alpha^{\beta x_2}}{\alpha^{\beta x_1}} = \alpha^{\beta(x_2-x_1)}$$
+
+我们假设x变化一个单位$$\Delta x$$（比如0.1），那么 $$\Delta cu=\frac{\alpha^{\beta x_2}}{\alpha^{\beta x_1}} = \alpha^{\beta(x_2-x_1)} = \alpha^{\beta \Delta x}$$ 随着$$x_1$$的增大而保持不变
+
+因此$$\alpha^{\beta x}$$边际效益不变
+
+投稿目标通常采用这种形式，可以使得高投稿概率的内容更容易排出
+
+**边际效益递增**
+
+对于部分负向目标，如dislike、skip等，我们不期望随着目标得分的增加，对cu的deboost力度下降，因此我们需要找寻一些边际效益递增的函数，随着负向目标得分的加强，对内容有更强的打压力度
